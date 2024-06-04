@@ -180,7 +180,12 @@ E: What if the array has multiple occurances of the value, if value isn't in the
 // Use .indexOf()method
 // Return the index of the value
 _.indexOf = function(array, value){
-    return array.indexOf(value);
+    for (let i = 0; i < array.length; i++){
+        if (array[i] === value){
+            return i;
+        }
+    }
+    return -1;
 }
 
 
@@ -227,6 +232,28 @@ _.contains = function(array, value){
 *   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
 *      -> should log "a" "b" "c" to the console
 */
+/*
+I: A collection and a function
+O: n/a
+C: n/a
+E: n/a
+*/
+// Use if conditonal
+// If collection is an array pass each element through the function
+// Use for loop to pass elements through function
+// If the element is an object pass each property through the function
+// Use for in loop to pass elements through function
+_.each = function(collection, func){
+if (Array.isArray(collection)){
+    for (let i = 0; i < collection.length; i++){
+    func(collection[i], i, collection);
+    }
+} else {
+    for (var key in collection){
+        func(collection[key], key, collection);
+    }
+}
+}
 
 
 /** _.unique
@@ -238,6 +265,26 @@ _.contains = function(array, value){
 * Examples:
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
+/*
+I: An array
+O: New array of all elements from <array> without duplicates
+C:
+E: 
+*/
+// Create storage array result
+// Use for loop to iterate over array
+// Pass each element of the array through _.indexOf function
+// If invoking the functionon the element === -1 then push that element onto the storage array
+// Return storage array
+_.unique = function(array){
+    let result = [];
+    for (let i = 0; i < array.length; i++){
+       if (_.indexOf(result, array[i]) === -1){
+        result.push(array[i]);
+       }
+    }
+    return result;
+}
 
 
 /** _.filter
@@ -255,6 +302,26 @@ _.contains = function(array, value){
 * Extra Credit:
 *   use _.each in your implementation
 */
+/*
+I: An array and a function
+O: A new array that contains the elements that returned true after being run through <function>
+C: n/a
+E: If <functionn> returns something other than true or false
+*/
+// Create storage array called true to push elements that return true when passed through function
+// Use for loop to iterate through the array and invoke the function on each element
+// Use if conditional to test if the elements at each index return true when passed through the function
+// Push elements that return true onto the storage array
+// Return the new array with the passing elements
+_.filter = function(array, func){
+    let output = [];
+    for (let i = 0; i < array.length; i++){
+        if (func(array[i], i, array) === true){
+            output.push(array[i]);
+        }
+    }
+    return output;
+}
 
 
 /** _.reject
@@ -269,7 +336,26 @@ _.contains = function(array, value){
 * Examples:
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
-
+/*
+I: An array and a function
+O: A new array of the elements for which calling the <function> returns false
+C: n/a
+E: n/a
+*/
+// Create a storage array
+// Use for loop to iterate over array
+// Pass each element through the function
+// If element passed through returns false push that element onto storage array
+// Return the storage array
+_.reject = function (array, func){
+    let result = [];
+    for (let i = 0; i < array.length; i++){
+        if (!func(array[i], i, array)){
+            result.push(array[i]);
+        }
+    }
+    return result;
+}
 
 /** _.partition
 * Arguments:
@@ -289,7 +375,28 @@ _.contains = function(array, value){
 *   }); -> [[2,4],[1,3,5]]
 }
 */
-
+/*
+I: An array and a function
+O: An array with two sub arrays for which 1: The function returned something truthy 2: The function returned something falsy
+C: n/a
+E: This is going to return an array of arrays
+*/
+// Create a storage array which is an array of empty arrays
+// Loop over the array and test if passing the element through the function returns true or false
+// If true --> push the value onto result[0]
+// If false --> push the value onto result[1]
+// Return result
+_.partition = function(array, func){
+    let result = [[], []];
+    for (let i = 0; i < array.length; i++){
+        if (func(array[i], i, array)){
+            result[0].push(array[i]);
+        } else {
+            result[1].push(array[i])
+        }
+    }
+return result;
+}
 
 /** _.map
 * Arguments:
