@@ -20,6 +20,18 @@ var _ = {};
 *   _.identity(5) === 5
 *   _.identity({a: "b"}) === {a: "b"}
 */
+/*
+I: Any value
+O: Return the value
+C: n/a
+E: n/a
+*/
+// function should return the value
+
+_.identity = function(value){
+return value;
+}
+
 
 
 /** _.typeOf
@@ -41,7 +53,24 @@ var _ = {};
 * _.typeOf("javascript") -> "string"
 * _.typeOf([1,2,3]) -> "array"
 */
+/* 
+I: Value
+O: Return the value type
+C: n/a
+E: n/a
+*/
+// Use typeof method to determine typeof data
+// Return typeof result
 
+_.typeOf = function(value){
+    if (Array.isArray(value) === true){
+        return 'array';
+    } else if (value === null){
+        return 'null';
+    } else {
+        return typeof value
+    }
+}
 
 /** _.first
 * Arguments:
@@ -60,8 +89,30 @@ var _ = {};
 *   _.first(["a", "b", "c"], 1) -> "a"
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
-
-
+/*
+I: An array and a number
+O: Return an empty array, first element of the array, or first number items of array
+C: n/a
+E: If number is negatvie, if number is greater than 0
+*/
+// Use for loop to iterate over array
+/**
+ *  Use if conditional to test:
+ * If Array.isArray() --> return [] if false
+ * If number is undefined or not a number --> return the first index of array
+ * Otherwise return the first <number> items of array
+ */
+_.first = function(array,number){
+    if (Array.isArray(array) !== true){
+        return [];
+    } else if(typeof number !== 'number'){
+        return array[0];
+    } else if (number > 0 === false){
+        return [];
+    } else {
+        return array.slice(0, number);
+    }
+}
 /** _.last
 * Arguments:
 *   1) An array
@@ -79,7 +130,31 @@ var _ = {};
 *   _.last(["a", "b", "c"], 1) -> "c"
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
-
+/* 
+I: An array and a number
+O: Return an empty array, the last element of the array, or the last <number> elements of the array
+C: n/a
+E: What if the <number> is negative or greater than array.length?
+*/
+/** 
+ * Use if conditional to test:
+ * If Array.isArray()
+ * If typeof number === 'number'
+ * Otherwise return the last <number> elements of array
+ **/
+ _.last = function(array, number){
+    if (Array.isArray(array) !== true){
+        return [];
+    } else if (typeof number !== 'number'){
+        return array[array.length - 1];
+    } else if (number < 0){
+        return [];
+    } else if (number > array.length === true){
+        return array;
+    } else {
+        return array.slice(array.length - number, array.length);
+    }
+ }
 
 /** _.indexOf
 * Arguments:
@@ -96,6 +171,17 @@ var _ = {};
 *   _.indexOf(["a","b","c"], "c") -> 2
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
+/*
+I: Array and a value
+O: The index of the given value
+C: n/a
+E: What if the array has multiple occurances of the value, if value isn't in the array
+*/
+// Use .indexOf()method
+// Return the index of the value
+_.indexOf = function(array, value){
+    return array.indexOf(value);
+}
 
 
 /** _.contains
@@ -112,7 +198,19 @@ var _ = {};
 * Examples:
 *   _.contains([1,"two", 3.14], "two") -> true
 */
+/*
+I: An array and a value
+O: Return true if the <array> contains <value>, otherwise return false
+C: n/a
+E: What if no value is given?
+*/
+// Use ternary operator 
+// Use .includes() method
+// Return true or false
+_.contains = function(array, value){
+   return array.includes(value) ? true: false;
 
+}
 
 /** _.each
 * Arguments:
@@ -208,6 +306,33 @@ var _ = {};
 * Examples:
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
 */
+/*
+I: A collection and a function
+O: Return a new array with the value from the collection
+C: n/a
+E: n/a
+*/
+// Create storage array to be returned
+// Determine if collection is an array using .ArrayisArray() method
+// If the ArrayisArray() method returns true --> use for loop to pass each index through the call function and push the return value onto the new array
+// If the  ArrayisArray() method returns false --> Pass the value at each property through the call function and push the return value onto the new array
+// Return the new array
+_.map = function(collection, func){
+    let output = [];
+    if (Array.isArray(collection) === true){
+        for (let i = 0; i < collection.length; i++){
+            // Invoke function on the element, index, and collection
+            output.push(func(collection[i], i, collection));
+        }
+    } else {
+        for (var key in collection){
+        output.push(func(collection[key], key, collection))
+    }
+}
+return output;
+}
+
+
 
 
 /** _.pluck
